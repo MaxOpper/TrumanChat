@@ -23,7 +23,7 @@ const MessageList = () => {
 
   return (
     <textarea
-      rows="10"
+      rows="20"
       value={messages
         .map(
           (message) =>

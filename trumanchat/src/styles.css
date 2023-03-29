@@ -1,7 +1,8 @@
 /* Header */
-.header {
+  .header {
     text-align: center;
     background-color: #510c76;
+    border-bottom: 3px solid black;
   }
   
   .title-container {
@@ -9,6 +10,7 @@
     display: inline-block;
     padding: 10px;
     border-radius: 50%;
+    border: 1px solid black;
   }
   
   .title {
@@ -17,8 +19,16 @@
   
   /* MessageList */
   .message-list {
-    margin-top: 10px;
+    width: 70%;
+    margin-right: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow-y: scroll;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    resize: none;
   }
+  
   
   .message {
     padding: 10px 0;
@@ -35,7 +45,8 @@
   
   /* MessageForm */
   .message-form {
-    display: flex;
+    float: right;
+    /*display: flex;*/
     flex-direction: column;
     margin-top: 20px;
   }
@@ -47,14 +58,15 @@
   .message-button {
     align-self: flex-end;
     padding: 5px 10px;
-    background-color: #f0d171;
-    border: none;
+    background-color: #87714d;
+    border: 1px solid black;
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
   }
   
   .message-button:hover {
-    background-color: #87714d;
+    background-color: #706451;
+    color: #510c76;
   }
   
