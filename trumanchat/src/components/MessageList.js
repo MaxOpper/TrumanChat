@@ -30,6 +30,7 @@ const MessageList = () => {
             `${new Date(message.timestamp).toLocaleString()} - ${message.author}: ${message.content}\n`
         )
         .join("")}
+      style={{ width: '80%' }}
       readOnly
     />
   );
