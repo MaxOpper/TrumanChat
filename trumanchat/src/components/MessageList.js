@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, onSnapshot } from "@firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
 
 const MessageList = () => {
@@ -7,7 +7,8 @@ const MessageList = () => {
 
   useEffect(() => {
     const messagesRef = collection(firestore, "messages");
-    const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    const messagesQuery = query(messagesRef, orderBy("timestamp", "asc"));
+    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
       const messageList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -24,7 +25,10 @@ const MessageList = () => {
     <textarea
       rows="10"
       value={messages
-        .map((message) => `${message.author}: ${message.content}\n`)
+        .map(
+          (message) =>
+            `${new Date(message.timestamp).toLocaleString()} - ${message.author}: ${message.content}\n`
+        )
         .join("")}
       readOnly
     />
