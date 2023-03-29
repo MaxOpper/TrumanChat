@@ -1,0 +1,60 @@
+/* Header */
+.header {
+    text-align: center;
+    background-color: #510c76;
+  }
+  
+  .title-container {
+    background-image: radial-gradient(circle at 50% 50%, #87714d 0%, #87714d 100%);
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  .title {
+    color: rgb(81, 12, 118);
+  }
+  
+  /* MessageList */
+  .message-list {
+    margin-top: 10px;
+  }
+  
+  .message {
+    padding: 10px 0;
+  }
+  
+  .message-header {
+    font-weight: bold;
+  }
+  
+  .message-content {
+    width: 80%;
+    height: 10%;
+  }
+  
+  /* MessageForm */
+  .message-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .message-input {
+    margin-bottom: 10px;
+  }
+  
+  .message-button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: #f0d171;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .message-button:hover {
+    background-color: #87714d;
+  }
+  

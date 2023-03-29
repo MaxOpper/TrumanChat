@@ -28,10 +28,11 @@ const MessageForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="message-form" onSubmit={handleSubmit}>
       <label>
         Conversation ID:
         <input
+          className="message-input"
           type="text"
           value={conversationId}
           onChange={(e) => setConversationId(e.target.value)}
@@ -41,6 +42,7 @@ const MessageForm = () => {
       <label>
         Content:
         <input
+          className="message-input"
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -50,13 +52,14 @@ const MessageForm = () => {
       <label>
         Author:
         <input
+          className="message-input"
           type="text"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button className="message-button" type="submit">Submit</button>
     </form>
   );
 };
