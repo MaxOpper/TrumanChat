@@ -5,8 +5,8 @@ import MessageList from "./components/MessageList";
 function App() {
   return (
     <div className="App">
-      <MessageForm />
       <MessageList />
+      <MessageForm />
     </div>
   );
 }
