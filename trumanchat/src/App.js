@@ -1,24 +1,15 @@
-import './App.css';
-import handleSubmit from './handles/handlesubmit';
-import { useRef } from 'react';
+import "./App.css";
+import MessageForm from "./components/MessageForm";
+import MessageList from "./components/MessageList";
 
 function App() {
-  const dataRef = useRef()
-
-  const submithandler = (e) => {
-  e.preventDefault()
-  handleSubmit(dataRef.current.value)
-  dataRef.current.value = ""
-  }
-
   return (
-  <div className="App">
-    <form onSubmit={submithandler}>
-      <input type= "text" ref={dataRef} />
-      <button type = "submit">Save</button>
-    </form>
-  </div>
+    <div className="App">
+      <MessageForm />
+      <MessageList />
+    </div>
   );
 }
 
 export default App;
+
