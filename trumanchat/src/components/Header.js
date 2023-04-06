@@ -12,6 +12,7 @@ const Header = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [user, setUser] = useState(null);
+
   const handleDelete = () => {
     deleteAllMessages();
   }
@@ -20,7 +21,12 @@ const Header = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Logged in as:", user.displayName);
+      if (user.email.endsWith("@truman.edu")) {
+        console.log("Logged in as:", user.displayName);
+      } else {
+        await signOut(auth);
+        alert("Only Truman University students can log in");
+      }
     } catch (err) {
       console.error("Error logging in:", err);
     }
@@ -47,11 +53,11 @@ const Header = () => {
       </div>
       {user ? (
         <div className="user-info">
-          <div className="delete-container">
-            <button className="delete-button"onClick={handleDelete}>Delete All Messages</button>
-          </div>
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
+          </div>
+          <div>
+            <button className="delete-button" onClick={handleDelete}>Delete All Messages</button>
           </div>
         </div>
       ) : (
