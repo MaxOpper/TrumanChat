@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { collection, addDoc } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
+import { getAuth } from "firebase/auth";
 
 const MessageForm = () => {
   const [conversationId, setConversationId] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
+  const auth = getAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,25 +15,23 @@ const MessageForm = () => {
     const newMessage = {
       conversationId,
       content,
-      author,
+      author: auth.currentUser.displayName, // set the author field to the current user's display name
       timestamp,
     };
     try {
       await addDoc(messagesRef, newMessage);
       setConversationId("");
       setContent("");
-      setAuthor("");
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <form className="message-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         Conversation ID:
         <input
-          className="message-input"
           type="text"
           value={conversationId}
           onChange={(e) => setConversationId(e.target.value)}
@@ -42,26 +41,14 @@ const MessageForm = () => {
       <label>
         Content:
         <input
-          className="message-input"
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
       </label>
       <br />
-      <label>
-        Author:
-        <input
-          className="message-input"
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-      </label>
-      <br />
-      <button className="message-button" type="submit">Submit</button>
+      <button type="submit">Submit</button>
     </form>
-    
   );
 };
 

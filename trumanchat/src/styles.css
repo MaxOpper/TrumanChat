@@ -69,4 +69,47 @@
     background-color: #706451;
     color: #510c76;
   }
+
+  .login-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   
+  .login-container button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: #87714d;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .login-container button:hover {
+    background-color: #706451;
+    color: #510c76;
+  }
+
+  .logout-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  
+  .logout-container button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: #87714d;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .logout-container button:hover {
+    background-color: #706451;
+    color: #510c76;
+  }
