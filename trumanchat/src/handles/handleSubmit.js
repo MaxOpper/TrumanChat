@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { collection, addDoc } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
 import { getAuth } from "firebase/auth";
@@ -6,7 +6,6 @@ import { getAuth } from "firebase/auth";
 const MessageForm = () => {
   const [conversationId, setConversationId] = useState("");
   const [content, setContent] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
   const auth = getAuth();
 
   const handleSubmit = async (e) => {
@@ -32,10 +31,6 @@ const MessageForm = () => {
     }
   };
 
-  useEffect(() => {
-    setIsDisabled(content.trim() === "");
-  }, [content]);
-
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -56,7 +51,7 @@ const MessageForm = () => {
         />
       </label>
       <br />
-      <button type="submit" disabled={isDisabled}>
+      <button type="submit">
         Submit
       </button>
     </form>

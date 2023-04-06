@@ -22,6 +22,16 @@
   color: #510c76;
 }
 
+.login-message {
+  background-color: #87714d;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+
 html, body, #root {
   height: 100%;
   margin: 0;

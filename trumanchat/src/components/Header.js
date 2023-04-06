@@ -6,11 +6,15 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import deleteAllMessages from "../components/deleteMessage.js";
 
 const Header = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [user, setUser] = useState(null);
+  const handleDelete = () => {
+    deleteAllMessages();
+  }
 
   const handleGoogleLogin = async () => {
     try {
@@ -43,10 +47,12 @@ const Header = () => {
       </div>
       {user ? (
         <div className="user-info">
+          <div className="delete-container">
+            <button className="delete-button"onClick={handleDelete}>Delete All Messages</button>
+          </div>
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
           </div>
-          
         </div>
       ) : (
         <div className="login-container">
@@ -58,4 +64,3 @@ const Header = () => {
 };
 
 export default Header;
-

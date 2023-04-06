@@ -109,6 +109,22 @@
     cursor: pointer;
   }
   
+  .delete-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .delete-button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: #87714d;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
   .logout-container button:hover {
     background-color: #706451;
     color: #510c76;
