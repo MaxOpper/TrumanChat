@@ -8,12 +8,16 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [isProfessor, setIsProfessor] = useState(false);
   const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        if ((user.email.endsWith("@truman.edu") && !/\d/.test(user.email)) || user.email === "mto1776@truman.edu") {
+          setIsProfessor(true);
+        }
       } else {
         setUser(null);
       }
@@ -29,13 +33,17 @@ function App() {
       <Header user={user} auth={auth} />
       {user ? (
         <div className="main-container">
-
           <div className="message-list-container">
             <MessageList />
           </div>
           <div className="message-form-container">
             <MessageForm />
           </div>
+          {isProfessor && (
+            <div className="sidebar-container">
+              <Sidebar user={user} />
+            </div>
+          )}
         </div>
       ) : (
         <div className="login-message">
@@ -47,3 +55,4 @@ function App() {
 }
 
 export default App;
+

@@ -6,7 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { collection, addDoc } from "@firebase/firestore";
+import { collection, addDoc, doc, getDoc } from "@firebase/firestore";
 import deleteAllMessages from "../components/deleteMessage.js";
 import { firestore } from "../firebase_setup/firebase";
 import  generateKey  from "../components/generateKey";
@@ -16,7 +16,9 @@ const Header = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [user, setUser] = useState(null);
-  const [isProfessor, setIsProfessor] = useState(false);
+  const [isProfessor, setIsProfessor] = useState(
+    localStorage.getItem("isProfessor") === "true"
+  );
   const [className, setClassName] = useState("");
 
   const handleDelete = () => {
@@ -33,8 +35,25 @@ const Header = () => {
       const user = result.user;
       if (user.email.endsWith("@truman.edu")) {
         console.log("Logged in as:", user.displayName);
+        if (!/\d/.test(user.email.split("@")[0])) {
+          setIsProfessor(true);
+          localStorage.setItem("isProfessor", true);
+        }
         if (user.email === "mto1776@truman.edu") {
           setIsProfessor(true);
+          localStorage.setItem("isProfessor", true)
+        }
+
+        // check if the user document exists
+        const userDocRef = doc(firestore, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (!userDocSnap.exists()) {
+          // create the user document with the username and professor status
+          const newUser = {
+            username: user.displayName,
+            isProfessor: isProfessor,
+          };
+          await addDoc(collection(firestore, "users"), newUser);
         }
       } else {
         await signOut(auth);
@@ -44,12 +63,16 @@ const Header = () => {
       console.error("Error logging in:", err);
     }
   };
+
+
   
   
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setIsProfessor(false);
+      localStorage.removeItem("isProfessor");
       console.log("Logged out");
     } catch (err) {
       console.error("Error logging out:", err);
