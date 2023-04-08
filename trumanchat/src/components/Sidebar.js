@@ -50,8 +50,13 @@ const Sidebar = ({ user }) => {
   };
 
   const handleClassSelect = async (classId) => {
-    setSelectedClass(classId);
+    if (selectedClass === classId) {
+      setSelectedClass(null);
+    } else {
+      setSelectedClass(classId);
+    }
   };
+  
 
   return (
     <div className="sidebar">
