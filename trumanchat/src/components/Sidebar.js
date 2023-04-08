@@ -1,16 +1,34 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { collection, query, where, getDocs } from "@firebase/firestore";
+import { firestore } from "../firebase_setup/firebase";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
+  const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      const classesRef = collection(firestore, "classes");
+      const q = query(classesRef, where("professor", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      const classesList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setClasses(classesList);
+    };
+
+    if (user) {
+      fetchClasses();
+    }
+  }, [user]);
+
   return (
     <div className="sidebar">
-      <div className="dropdown">
-        <button className="dropbtn">Menu</button>
-        <div className="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
+      {classes.map((classObj) => (
+        <div key={classObj.id} className="class">
+          {classObj.name}
         </div>
-      </div>
+      ))}
     </div>
   );
 };
