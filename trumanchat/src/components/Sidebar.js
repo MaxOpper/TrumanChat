@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { collection, onSnapshot, query, where, addDoc } from "@firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  addDoc,
+  doc,
+  getDoc,
+} from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
-import  generateKey  from "./generateKey";
+import generateKey from "./generateKey";
 
 const Sidebar = ({ user }) => {
   const [classes, setClasses] = useState([]);
   const [className, setClassName] = useState("");
+  const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() => {
     const classesRef = collection(firestore, "classes");
@@ -28,16 +37,20 @@ const Sidebar = ({ user }) => {
     const newClass = {
       name: className,
       professor: user.email,
-      key: key
+      key: key,
     };
     try {
       await addDoc(classesRef, newClass);
       setClassName("");
       console.log("Class created:", newClass.name);
-      alert(`Class created with key ${key}`);
+      //alert(`Class created with key ${key}`);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleClassSelect = async (classId) => {
+    setSelectedClass(classId);
   };
 
   return (
@@ -46,7 +59,11 @@ const Sidebar = ({ user }) => {
         <h2>My Classes</h2>
         <ul>
           {classes.map((classItem) => (
-            <li key={classItem.id}>
+            <li
+              key={classItem.id}
+              className={selectedClass === classItem.id ? "selected-class" : ""}
+              onClick={() => handleClassSelect(classItem.id)}
+            >
               <p>
                 <strong>{classItem.name}</strong> ({classItem.key})
               </p>
@@ -62,11 +79,12 @@ const Sidebar = ({ user }) => {
           value={className}
           onChange={(e) => setClassName(e.target.value)}
         />
-        <button className="delete-button" onClick={handleCreateClass}>Create class</button>
+        <button className="delete-button" onClick={handleCreateClass}>
+          Create class
+        </button>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
-
