@@ -33,17 +33,18 @@ function App() {
       <Header user={user} auth={auth} />
       {user ? (
         <div className="main-container">
-          <div className="message-list-container">
-            <MessageList />
-          </div>
-          <div className="message-form-container">
-            <MessageForm />
-          </div>
           {isProfessor && (
             <div className="sidebar-container">
               <Sidebar user={user} />
             </div>
           )}
+          <div className="message-list-container">
+            <MessageList />
+          </div>
+          
+          <div className="message-form-container">
+            <MessageForm />
+          </div>
         </div>
       ) : (
         <div className="login-message">

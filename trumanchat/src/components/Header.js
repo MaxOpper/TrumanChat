@@ -64,10 +64,6 @@ const Header = () => {
     }
   };
 
-
-  
-  
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -78,26 +74,6 @@ const Header = () => {
       console.error("Error logging out:", err);
     }
   };
-
-  const handleCreateClass = async () => {
-    const classesRef = collection(firestore, "classes");
-    const key = generateKey();
-    const newClass = {
-      name: className,
-      professor: user.email,
-      key: key
-    };
-    try {
-      await addDoc(classesRef, newClass);
-      setClassName("");
-      console.log("Class created:", newClass.name);
-      alert(`Class created with key ${key}`);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  
-  
 
   // Listen for changes to the authentication state and update the user state
   onAuthStateChanged(auth, (user) => {
@@ -111,17 +87,6 @@ const Header = () => {
       </div>
       {user && (
         <div className="user-info">
-          {isProfessor && (
-            <div className="professor-menu">
-              <input
-                type="text"
-                placeholder="Class name"
-                value={className}
-                onChange={(e) => setClassName(e.target.value)}
-              />
-              <button onClick={handleCreateClass}>Create class</button>
-            </div>
-          )}
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
           </div>
@@ -145,4 +110,3 @@ const Header = () => {
 };
 
 export default Header;
-
