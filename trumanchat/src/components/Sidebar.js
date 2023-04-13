@@ -53,8 +53,11 @@ const Sidebar = ({ user }) => {
   const handleClassSelect = async (classId) => {
     if (selectedClass === classId) {
       setSelectedClass(null);
+      localStorage.setItem("classID", null)
     } else {
       setSelectedClass(classId);
+      localStorage.setItem("classID", classId)
+      console.log(localStorage.getItem("classID"))
     }
   };
   

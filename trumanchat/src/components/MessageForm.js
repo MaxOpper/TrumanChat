@@ -12,14 +12,17 @@ const MessageForm = () => {
     e.preventDefault();
     const timestamp = new Date().toISOString();
     const messagesRef = collection(firestore, "messages");
+    
     const newMessage = {
-      conversationId,
+      conversationId: localStorage.getItem("classID"),
       content,
       author: auth.currentUser.displayName, // set the author field to the current user's display name
       timestamp,
     };
+    console.log(conversationId);
     try {
       await addDoc(messagesRef, newMessage);
+      
       setConversationId("");
       setContent("");
     } catch (err) {
