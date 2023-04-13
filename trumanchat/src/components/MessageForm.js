@@ -29,14 +29,6 @@ const MessageForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Conversation ID:
-        <input
-          type="text"
-          value={conversationId}
-          onChange={(e) => setConversationId(e.target.value)}
-        />
-      </label>
       <br />
       <label>
         Content:
@@ -47,7 +39,7 @@ const MessageForm = () => {
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={!content} >Submit</button>
     </form>
   );
 };

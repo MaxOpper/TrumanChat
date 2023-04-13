@@ -105,7 +105,7 @@ const Sidebar = ({ user }) => {
             value={className}
             onChange={(e) => setClassName(e.target.value)}
           />
-          <button className="delete-button" onClick={handleCreateClass}>
+          <button className="delete-button" onClick={handleCreateClass} disabled={!className}>
             Create class
           </button>
         </div>
