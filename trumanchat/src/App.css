@@ -1,5 +1,4 @@
 .App {
-
   text-align: center;
   height: 100%;
   background-color: #6e4186;
@@ -31,11 +30,59 @@
   font-size: 1.2rem;
 }
 
-
-
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+
+.main-container {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar-container {
+  flex: 0 0 200px;
+  background-color: #d1c4e9;
+  border-right: 2px solid black;
+  padding: 10px;
+}
+
+.message-list-container {
+  flex: 1;
+  padding: 10px;
+}
+
+.message-form-container {
+  padding: 10px;
+}
+
+.sidebar {
+  background-color: #b6a2c6;
+  width: 250px;
+  padding: 10px;
+  border: 3px solid black;
+  margin-right: 20px;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.sidebar .class-list li {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.sidebar .class-list li:hover {
+  background-color: #8c6aa5;
+  color: #ffffff;
+}
+
+.sidebar .class-list .selected-class {
+  background-color: #5d478b;
+  color: #ffffff;
+}
+
 

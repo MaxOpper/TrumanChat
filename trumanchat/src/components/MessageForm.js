@@ -12,14 +12,17 @@ const MessageForm = () => {
     e.preventDefault();
     const timestamp = new Date().toISOString();
     const messagesRef = collection(firestore, "messages");
+    
     const newMessage = {
-      conversationId,
+      conversationId: localStorage.getItem("classID"),
       content,
       author: auth.currentUser.displayName, // set the author field to the current user's display name
       timestamp,
     };
+    console.log(conversationId);
     try {
       await addDoc(messagesRef, newMessage);
+      
       setConversationId("");
       setContent("");
     } catch (err) {
@@ -29,14 +32,6 @@ const MessageForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Conversation ID:
-        <input
-          type="text"
-          value={conversationId}
-          onChange={(e) => setConversationId(e.target.value)}
-        />
-      </label>
       <br />
       <label>
         Content:
@@ -47,7 +42,7 @@ const MessageForm = () => {
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={!content} >Submit</button>
     </form>
   );
 };

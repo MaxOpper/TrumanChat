@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot } from "@firebase/firestore";
+import { collection, query, orderBy, onSnapshot, where } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
 
 const MessageList = () => {
   const [messages, setMessages] = useState([]);
+  const conversationID = localStorage.getItem("classID");
+  const messagesQuery = query(
+    collection(firestore, "messages"),
+    orderBy("timestamp", "asc"),
+    where("conversationId", "==", String(conversationID).trim())
+  );
 
   useEffect(() => {
-    const messagesRef = collection(firestore, "messages");
-    const messagesQuery = query(messagesRef, orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+      console.log(snapshot);
       const messageList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -19,7 +24,7 @@ const MessageList = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [messagesQuery]);
 
   return (
     <textarea
@@ -36,6 +41,5 @@ const MessageList = () => {
   );
 };
 
-
-
 export default MessageList;
+

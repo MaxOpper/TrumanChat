@@ -6,16 +6,28 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { collection, addDoc, doc, getDoc } from "@firebase/firestore";
 import deleteAllMessages from "../components/deleteMessage.js";
+import { firestore } from "../firebase_setup/firebase";
+import  generateKey  from "../components/generateKey";
+import deleteAllClasses from "../components/DeleteClasses.js";
 
 const Header = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [user, setUser] = useState(null);
+  const [isProfessor, setIsProfessor] = useState(
+    localStorage.getItem("isProfessor") === "true"
+  );
+  const [className, setClassName] = useState("");
 
   const handleDelete = () => {
     deleteAllMessages();
-  }
+  };
+
+  const handleDeleteclass = () => {
+    deleteAllClasses();
+  };
 
   const handleGoogleLogin = async () => {
     try {
@@ -23,9 +35,29 @@ const Header = () => {
       const user = result.user;
       if (user.email.endsWith("@truman.edu")) {
         console.log("Logged in as:", user.displayName);
+        if (!/\d/.test(user.email.split("@")[0])) {
+          setIsProfessor(true);
+          localStorage.setItem("isProfessor", true);
+        }
+        if (user.email === "mto1776@truman.edu") {
+          setIsProfessor(true);
+          localStorage.setItem("isProfessor", true)
+        }
+
+        // check if the user document exists
+        const userDocRef = doc(firestore, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (!userDocSnap.exists()) {
+          // create the user document with the username and professor status
+          const newUser = {
+            username: user.displayName,
+            isProfessor: isProfessor,
+          };
+          await addDoc(collection(firestore, "users"), newUser);
+        }
       } else {
         await signOut(auth);
-        alert("Only Truman University students can log in");
+        alert("Only users with @truman.edu emails can log in");
       }
     } catch (err) {
       console.error("Error logging in:", err);
@@ -35,6 +67,8 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setIsProfessor(false);
+      localStorage.removeItem("isProfessor");
       console.log("Logged out");
     } catch (err) {
       console.error("Error logging out:", err);
@@ -51,16 +85,22 @@ const Header = () => {
       <div className="title-container">
         <h1 className="title">Truman Chat</h1>
       </div>
-      {user ? (
+      {user && (
         <div className="user-info">
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
           </div>
-          <div>
-            <button className="delete-button" onClick={handleDelete}>Delete All Messages</button>
+          <div className="delete-container">
+            <button className="delete-button" onClick={handleDelete}>
+              Delete All Messages
+            </button>
+            <button className="delete-button" onClick={handleDeleteclass}>
+              Delete All Classes
+            </button>
           </div>
         </div>
-      ) : (
+      )}
+      {!user && (
         <div className="login-container">
           <button onClick={handleGoogleLogin}>Login</button>
         </div>
