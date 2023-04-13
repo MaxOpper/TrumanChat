@@ -9,8 +9,7 @@ import {
 import { collection, addDoc, doc, getDoc } from "@firebase/firestore";
 import deleteAllMessages from "../components/deleteMessage.js";
 import { firestore } from "../firebase_setup/firebase";
-import  generateKey  from "../components/generateKey";
-import deleteAllClasses from "../components/DeleteClasses.js";
+
 
 const Header = () => {
   const auth = getAuth();
@@ -19,14 +18,10 @@ const Header = () => {
   const [isProfessor, setIsProfessor] = useState(
     localStorage.getItem("isProfessor") === "true"
   );
-  const [className, setClassName] = useState("");
+
 
   const handleDelete = () => {
     deleteAllMessages();
-  };
-
-  const handleDeleteclass = () => {
-    deleteAllClasses();
   };
 
   const handleGoogleLogin = async () => {
@@ -93,9 +88,6 @@ const Header = () => {
           <div className="delete-container">
             <button className="delete-button" onClick={handleDelete}>
               Delete All Messages
-            </button>
-            <button className="delete-button" onClick={handleDeleteclass}>
-              Delete All Classes
             </button>
           </div>
         </div>

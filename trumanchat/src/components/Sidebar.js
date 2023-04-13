@@ -10,6 +10,7 @@ import {
 } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
 import generateKey from "./generateKey";
+import deleteMessagesByConversationId from "./DeleteClasses";
 
 const Sidebar = ({ user }) => {
   const [classes, setClasses] = useState([]);
@@ -65,6 +66,7 @@ const Sidebar = ({ user }) => {
     const classRef = doc(firestore, "classes", selectedClass);
     try {
       await deleteDoc(classRef);
+      await deleteMessagesByConversationId(localStorage.getItem("classID"));
       console.log("Class deleted:", selectedClass);
       setSelectedClass(null);
     } catch (err) {
