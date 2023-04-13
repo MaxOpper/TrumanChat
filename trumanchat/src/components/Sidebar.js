@@ -6,7 +6,6 @@ import {
   where,
   addDoc,
   doc,
-  getDoc,
   deleteDoc,
 } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
