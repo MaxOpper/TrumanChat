@@ -7,6 +7,7 @@ import {
   addDoc,
   doc,
   getDoc,
+  deleteDoc,
 } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
 import generateKey from "./generateKey";
@@ -43,7 +44,7 @@ const Sidebar = ({ user }) => {
       await addDoc(classesRef, newClass);
       setClassName("");
       console.log("Class created:", newClass.name);
-      //alert(`Class created with key ${key}`);
+      alert(`Class created with key ${key}`);
     } catch (err) {
       console.error(err);
     }
@@ -58,6 +59,17 @@ const Sidebar = ({ user }) => {
   };
   
 
+  const handleClassDelete = async () => {
+    const classRef = doc(firestore, "classes", selectedClass);
+    try {
+      await deleteDoc(classRef);
+      console.log("Class deleted:", selectedClass);
+      setSelectedClass(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="sidebar">
       <div className="class-list">
@@ -66,7 +78,9 @@ const Sidebar = ({ user }) => {
           {classes.map((classItem) => (
             <li
               key={classItem.id}
-              className={selectedClass === classItem.id ? "selected-class" : ""}
+              className={
+                selectedClass === classItem.id ? "selected-class" : ""
+              }
               onClick={() => handleClassSelect(classItem.id)}
             >
               <p>
@@ -76,18 +90,26 @@ const Sidebar = ({ user }) => {
           ))}
         </ul>
       </div>
-      <div className="create-class">
-        <h2>Create a Class</h2>
-        <input
-          type="text"
-          placeholder="Class name"
-          value={className}
-          onChange={(e) => setClassName(e.target.value)}
-        />
-        <button className="delete-button" onClick={handleCreateClass}>
-          Create class
-        </button>
-      </div>
+      {selectedClass ? (
+        <div className="class-actions">
+          <button className="delete-button" onClick={handleClassDelete}>
+            Delete class
+          </button>
+        </div>
+      ) : (
+        <div className="create-class">
+          <h2>Create a Class</h2>
+          <input
+            type="text"
+            placeholder="Class name"
+            value={className}
+            onChange={(e) => setClassName(e.target.value)}
+          />
+          <button className="delete-button" onClick={handleCreateClass}>
+            Create class
+          </button>
+        </div>
+      )}
     </div>
   );
 };
