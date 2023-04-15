@@ -7,7 +7,6 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { collection, addDoc, doc, getDoc } from "@firebase/firestore";
-import deleteAllMessages from "../components/deleteMessage.js";
 import { firestore } from "../firebase_setup/firebase";
 
 
@@ -18,11 +17,6 @@ const Header = () => {
   const [isProfessor, setIsProfessor] = useState(
     localStorage.getItem("isProfessor") === "true"
   );
-
-
-  const handleDelete = () => {
-    deleteAllMessages();
-  };
 
   const handleGoogleLogin = async () => {
     try {
@@ -84,11 +78,6 @@ const Header = () => {
         <div className="user-info">
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
-          </div>
-          <div className="delete-container">
-            <button className="delete-button" onClick={handleDelete}>
-              Delete All Messages
-            </button>
           </div>
         </div>
       )}

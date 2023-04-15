@@ -40,9 +40,6 @@ function App() {
           )}
           <div className="message-list-container">
             <MessageList />
-          </div>
-          
-          <div className="message-form-container">
             <MessageForm />
           </div>
         </div>

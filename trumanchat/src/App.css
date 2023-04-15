@@ -39,6 +39,7 @@ html, body, #root {
 .main-container {
   display: flex;
   height: 100%;
+  height:auto;
 }
 
 .sidebar-container {
@@ -46,6 +47,9 @@ html, body, #root {
   background-color: #d1c4e9;
   border-right: 2px solid black;
   padding: 10px;
+  height:auto;
+  border-bottom: 3px solid black;
+  width: auto;
 }
 
 .message-list-container {
@@ -59,7 +63,7 @@ html, body, #root {
 
 .sidebar {
   background-color: #b6a2c6;
-  width: 250px;
+  width: 90%;
   padding: 10px;
   border: 3px solid black;
   margin-right: 20px;
@@ -83,6 +87,10 @@ html, body, #root {
 .sidebar .class-list .selected-class {
   background-color: #5d478b;
   color: #ffffff;
+}
+
+.create-class input {
+  background-color: #d1c4e9;
 }
 
 
