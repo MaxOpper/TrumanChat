@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/%7BTrumanChat%7D/static/css/main.6d14f31e.css",
+    "main.js": "/%7BTrumanChat%7D/static/js/main.ca9bfba5.js",
+    "index.html": "/%7BTrumanChat%7D/index.html",
+    "main.6d14f31e.css.map": "/%7BTrumanChat%7D/static/css/main.6d14f31e.css.map",
+    "main.ca9bfba5.js.map": "/%7BTrumanChat%7D/static/js/main.ca9bfba5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d14f31e.css",
+    "static/js/main.ca9bfba5.js"
+  ]
+}
