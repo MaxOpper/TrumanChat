@@ -22,11 +22,14 @@ const Header = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      if (user.email.endsWith("@truman.edu")) {
+      if (user.email.endsWith("@truman.edu") || user.email === "maxwell8270@gmail.com") {
         console.log("Logged in as:", user.displayName);
         if (!/\d/.test(user.email.split("@")[0])) {
           setIsProfessor(true);
           localStorage.setItem("isProfessor", true);
+        } else {
+          setIsProfessor(false);
+          localStorage.setItem("isProfessor", false);
         }
         if (user.email === "mto1776@truman.edu") {
           setIsProfessor(true);

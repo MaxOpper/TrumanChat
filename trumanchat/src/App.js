@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import MessageForm from "./components/MessageForm";
 import MessageList from "./components/MessageList";
 import Sidebar from "./components/Sidebar";
+import SidebarStudent from "./components/SidebarStudent";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -15,8 +16,10 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        if ((user.email.endsWith("@truman.edu") && !/\d/.test(user.email)) || user.email === "mto1776@truman.edu") {
+        if (((user.email.endsWith("@truman.edu") && !/\d/.test(user.email)) || user.email === "mto1776@truman.edu") ) {
           setIsProfessor(true);
+        } else {
+          setIsProfessor(false);
         }
       } else {
         setUser(null);
@@ -36,6 +39,11 @@ function App() {
           {isProfessor && (
             <div className="sidebar-container">
               <Sidebar user={user} />
+            </div>
+          )}
+          {!isProfessor && (
+            <div className="sidebar-container">
+              <SidebarStudent user={user} />
             </div>
           )}
           <div className="message-list-container">
