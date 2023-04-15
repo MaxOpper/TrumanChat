@@ -12,7 +12,7 @@ import { firestore } from "../firebase_setup/firebase";
 import generateKey from "./generateKey";
 import deleteMessagesByConversationId from "./DeleteClasses";
 
-const Sidebar = ({ user }) => {
+const SidebarStudent = ({ user }) => {
   const [classes, setClasses] = useState([]);
   const [className, setClassName] = useState("");
   const [selectedClass, setSelectedClass] = useState(null);
@@ -88,7 +88,7 @@ const Sidebar = ({ user }) => {
               onClick={() => handleClassSelect(classItem.id)}
             >
               <p>
-                <strong>{classItem.name}</strong> ({classItem.key})
+                <strong>{classItem.name}</strong>
               </p>
             </li>
           ))}
@@ -97,20 +97,20 @@ const Sidebar = ({ user }) => {
       {selectedClass ? (
         <div className="class-actions">
           <button className="delete-button" onClick={handleClassDelete}>
-            Delete class
+            Leave class
           </button>
         </div>
       ) : (
         <div className="create-class">
-          <h2>Create a Class</h2>
+          <h2>Join a Class</h2>
           <input
             type="text"
-            placeholder="Class name"
+            placeholder="Class Key"
             value={className}
             onChange={(e) => setClassName(e.target.value)}
           />
           <button className="delete-button" onClick={handleCreateClass} disabled={!className}>
-            Create class
+            Submit
           </button>
         </div>
       )}
@@ -118,4 +118,4 @@ const Sidebar = ({ user }) => {
   );
 };
 
-export default Sidebar;
+export default SidebarStudent;

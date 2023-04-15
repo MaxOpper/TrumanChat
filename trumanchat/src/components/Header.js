@@ -7,10 +7,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { collection, addDoc, doc, getDoc } from "@firebase/firestore";
-import deleteAllMessages from "../components/deleteMessage.js";
 import { firestore } from "../firebase_setup/firebase";
-import  generateKey  from "../components/generateKey";
-import deleteAllClasses from "../components/DeleteClasses.js";
+
 
 const Header = () => {
   const auth = getAuth();
@@ -19,25 +17,19 @@ const Header = () => {
   const [isProfessor, setIsProfessor] = useState(
     localStorage.getItem("isProfessor") === "true"
   );
-  const [className, setClassName] = useState("");
-
-  const handleDelete = () => {
-    deleteAllMessages();
-  };
-
-  const handleDeleteclass = () => {
-    deleteAllClasses();
-  };
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      if (user.email.endsWith("@truman.edu")) {
+      if (user.email.endsWith("@truman.edu") || user.email === "maxwell8270@gmail.com") {
         console.log("Logged in as:", user.displayName);
         if (!/\d/.test(user.email.split("@")[0])) {
           setIsProfessor(true);
           localStorage.setItem("isProfessor", true);
+        } else {
+          setIsProfessor(false);
+          localStorage.setItem("isProfessor", false);
         }
         if (user.email === "mto1776@truman.edu") {
           setIsProfessor(true);
@@ -89,14 +81,6 @@ const Header = () => {
         <div className="user-info">
           <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
-          </div>
-          <div className="delete-container">
-            <button className="delete-button" onClick={handleDelete}>
-              Delete All Messages
-            </button>
-            <button className="delete-button" onClick={handleDeleteclass}>
-              Delete All Classes
-            </button>
           </div>
         </div>
       )}

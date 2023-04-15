@@ -30,6 +30,8 @@ const MessageForm = () => {
     }
   };
 
+  
+
   return (
     <form onSubmit={handleSubmit}>
       <br />

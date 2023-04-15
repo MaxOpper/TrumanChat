@@ -13,7 +13,6 @@ const MessageList = () => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-      console.log(snapshot);
       const messageList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
