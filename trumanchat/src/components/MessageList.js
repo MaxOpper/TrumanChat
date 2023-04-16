@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot, where } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
+import LRUCache from 'lru-cache';
+
+const cache = new LRUCache({
+  max: 100,
+  maxAge: 1000 * 60 * 5 // 5 minutes
+});
 
 const MessageList = () => {
   const [messages, setMessages] = useState([]);
@@ -12,18 +18,24 @@ const MessageList = () => {
   );
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-      const messageList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(messageList);
-    });
+    const cachedMessages = cache.get(conversationID);
+    if (cachedMessages) {
+      setMessages(cachedMessages);
+    } else {
+      const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+        const messageList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMessages(messageList);
+        cache.set(conversationID, messageList);
+      });
 
-    return () => {
-      unsubscribe();
-    };
-  }, [messagesQuery]);
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [conversationID, messagesQuery]);
 
   return (
     <textarea
