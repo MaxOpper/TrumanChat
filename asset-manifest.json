@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/TrumanChat/static/css/main.6d14f31e.css",
-    "main.js": "/TrumanChat/static/js/main.775034d9.js",
+    "main.css": "/TrumanChat/static/css/main.b93fd6c9.css",
+    "main.js": "/TrumanChat/static/js/main.c18eae78.js",
     "index.html": "/TrumanChat/index.html",
-    "main.6d14f31e.css.map": "/TrumanChat/static/css/main.6d14f31e.css.map",
-    "main.775034d9.js.map": "/TrumanChat/static/js/main.775034d9.js.map"
+    "main.b93fd6c9.css.map": "/TrumanChat/static/css/main.b93fd6c9.css.map",
+    "main.c18eae78.js.map": "/TrumanChat/static/js/main.c18eae78.js.map"
   },
   "entrypoints": [
-    "static/css/main.6d14f31e.css",
-    "static/js/main.775034d9.js"
+    "static/css/main.b93fd6c9.css",
+    "static/js/main.c18eae78.js"
   ]
 }
