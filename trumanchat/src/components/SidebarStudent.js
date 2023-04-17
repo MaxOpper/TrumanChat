@@ -54,22 +54,27 @@ const SidebarStudent = ({ user }) => {
       console.error(err);
     }
   };
-  
 
   const handleClassSelect = async (classId) => {
-    if (selectedClass === classId) {
+    const classRef = doc(firestore, "enrolled", classId);
+    const classDoc = await getDoc(classRef);
+    const select = classDoc.data().classId;
+    if (selectedClass === select) {
       setSelectedClass(null);
       localStorage.setItem("classID", null)
+      localStorage.setItem("studentClassID", null)
     } else {
-      setSelectedClass(classId);
-      localStorage.setItem("classID", classId)
+      setSelectedClass(select);
+      localStorage.setItem("classID", select)
+      localStorage.setItem("studentClassID", classId)
       console.log(localStorage.getItem("classID"))
+      
     }
   };
   
 
   const handleClassLeave = async () => {
-    const enrollmentDocName = localStorage.getItem("classID");
+    const enrollmentDocName = localStorage.getItem("studentClassID");
     const enrollmentRef = doc(firestore, "enrolled", enrollmentDocName);
     const enrollmentDoc = await getDoc(enrollmentRef);
     if (!enrollmentDoc.exists()) {
