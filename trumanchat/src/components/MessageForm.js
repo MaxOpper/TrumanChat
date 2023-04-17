@@ -4,7 +4,7 @@ import { firestore } from "../firebase_setup/firebase";
 import { getAuth } from "firebase/auth";
 
 const MessageForm = () => {
-  const [conversationId, setConversationId] = useState(null);
+  const [conversationId, setConversationId] = useState("");
   const [content, setContent] = useState("");
   const auth = getAuth();
 

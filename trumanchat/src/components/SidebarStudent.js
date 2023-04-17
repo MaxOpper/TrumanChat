@@ -65,6 +65,7 @@ const SidebarStudent = ({ user }) => {
       setSelectedClass(null);
       localStorage.setItem("classID", null);
       localStorage.setItem("studentClassID", null);
+      console.log(localStorage.getItem("classID"));
     } else {
       setSelectedClass(classItem);
       localStorage.setItem("classID", classItem);
