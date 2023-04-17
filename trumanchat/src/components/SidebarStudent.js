@@ -18,19 +18,24 @@ const SidebarStudent = ({ user }) => {
   const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() => {
-    const classesRef = collection(firestore, "enrolled");
-    const q = query(classesRef, where("student", "==", user.email));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newClasses = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setClasses(newClasses);
+    const enrolledRef = collection(firestore, "enrolled");
+    const enrolledQuery = query(enrolledRef, where("student", "==", user.email));
+    const unsubscribe = onSnapshot(enrolledQuery, async (enrolledSnapshot) => {
+      const classDocs = await Promise.all(
+        enrolledSnapshot.docs.map(async (enrollmentDoc) => {
+          const classId = enrollmentDoc.data().classId;
+          const classRef = doc(firestore, "classes", classId);
+          const classDoc = await getDoc(classRef);
+          return { id: classDoc.id, ...classDoc.data() };
+        })
+      );
+      setClasses(classDocs);
     });
     return () => {
       unsubscribe();
     };
   }, [user]);
+  
 
   const handleJoinClass = async () => {
     const classesRef = collection(firestore, "classes");
@@ -55,22 +60,19 @@ const SidebarStudent = ({ user }) => {
     }
   };
 
-  const handleClassSelect = async (classId) => {
-    const classRef = doc(firestore, "enrolled", classId);
-    const classDoc = await getDoc(classRef);
-    const select = classDoc.data().classId;
-    if (selectedClass === select) {
+  const handleClassSelect = (classItem) => {
+    if (selectedClass === classItem) {
       setSelectedClass(null);
-      localStorage.setItem("classID", null)
-      localStorage.setItem("studentClassID", null)
+      localStorage.setItem("classID", null);
+      localStorage.setItem("studentClassID", null);
     } else {
-      setSelectedClass(select);
-      localStorage.setItem("classID", select)
-      localStorage.setItem("studentClassID", classId)
-      console.log(localStorage.getItem("classID"))
-      
+      setSelectedClass(classItem);
+      localStorage.setItem("classID", classItem);
+      localStorage.setItem("studentClassID", classItem);
+      console.log(localStorage.getItem("classID"));
     }
   };
+  
   
 
   const handleClassLeave = async () => {
