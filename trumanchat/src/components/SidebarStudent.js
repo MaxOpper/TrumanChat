@@ -126,6 +126,7 @@ const SidebarStudent = ({ user }) => {
             Leave class
           </button>
         </div>
+        
       ) : (
         <div className="create-class">
           <h2>Join a Class</h2>
