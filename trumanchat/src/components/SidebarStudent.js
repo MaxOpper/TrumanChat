@@ -7,10 +7,10 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  getDocs,
+  getDoc
 } from "@firebase/firestore";
 import { firestore } from "../firebase_setup/firebase";
-import generateKey from "./generateKey";
-import deleteMessagesByConversationId from "./DeleteClasses";
 
 const SidebarStudent = ({ user }) => {
   const [classes, setClasses] = useState([]);
@@ -18,8 +18,8 @@ const SidebarStudent = ({ user }) => {
   const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() => {
-    const classesRef = collection(firestore, "classes");
-    const q = query(classesRef, where("professor", "==", user.email));
+    const classesRef = collection(firestore, "enrolled");
+    const q = query(classesRef, where("student", "==", user.email));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newClasses = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -32,23 +32,29 @@ const SidebarStudent = ({ user }) => {
     };
   }, [user]);
 
-  const handleCreateClass = async () => {
+  const handleJoinClass = async () => {
     const classesRef = collection(firestore, "classes");
-    const key = generateKey();
-    const newClass = {
-      name: className,
-      professor: user.email,
-      key: key,
+    const classQuery = query(classesRef, where("key", "==", className));
+    const snapshot = await getDocs(classQuery);
+    if (snapshot.size === 0) {
+      alert("Class key not found");
+      return;
+    }
+    const classData = snapshot.docs[0].data();
+    const enrolledRef = collection(firestore, "enrolled");
+    const newEnrollment = {
+      classId: snapshot.docs[0].id,
+      student: user.email,
     };
     try {
-      await addDoc(classesRef, newClass);
-      setClassName("");
-      console.log("Class created:", newClass.name);
-      alert(`Class created with key ${key}`);
+      await addDoc(enrolledRef, newEnrollment);
+      console.log("Class joined:", classData.name);
+      alert(`Successfully joined class ${classData.name}`);
     } catch (err) {
       console.error(err);
     }
   };
+  
 
   const handleClassSelect = async (classId) => {
     if (selectedClass === classId) {
@@ -62,17 +68,30 @@ const SidebarStudent = ({ user }) => {
   };
   
 
-  const handleClassDelete = async () => {
-    const classRef = doc(firestore, "classes", selectedClass);
+  const handleClassLeave = async () => {
+    const enrollmentDocName = localStorage.getItem("classID");
+    const enrollmentRef = doc(firestore, "enrolled", enrollmentDocName);
+    const enrollmentDoc = await getDoc(enrollmentRef);
+    if (!enrollmentDoc.exists()) {
+      alert("You are not enrolled in this class");
+      return;
+    }
+    const enrollmentData = enrollmentDoc.data();
+    if (enrollmentData.student !== user.email) {
+      alert("You are not enrolled in this class");
+      return;
+    }
     try {
-      await deleteDoc(classRef);
-      await deleteMessagesByConversationId(localStorage.getItem("classID"));
-      console.log("Class deleted:", selectedClass);
+      await deleteDoc(enrollmentRef);
+      console.log("Class left:", enrollmentDocName);
+      alert("Successfully left the class");
       setSelectedClass(null);
     } catch (err) {
       console.error(err);
     }
   };
+  
+  
 
   return (
     <div className="sidebar">
@@ -96,7 +115,7 @@ const SidebarStudent = ({ user }) => {
       </div>
       {selectedClass ? (
         <div className="class-actions">
-          <button className="delete-button" onClick={handleClassDelete}>
+          <button className="delete-button" onClick={handleClassLeave}>
             Leave class
           </button>
         </div>
@@ -109,7 +128,7 @@ const SidebarStudent = ({ user }) => {
             value={className}
             onChange={(e) => setClassName(e.target.value)}
           />
-          <button className="delete-button" onClick={handleCreateClass} disabled={!className}>
+          <button className="delete-button" onClick={handleJoinClass} disabled={!className}>
             Submit
           </button>
         </div>
