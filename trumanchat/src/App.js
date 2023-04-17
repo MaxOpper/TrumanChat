@@ -6,6 +6,7 @@ import MessageForm from "./components/MessageForm";
 import MessageList from "./components/MessageList";
 import Sidebar from "./components/Sidebar";
 import SidebarStudent from "./components/SidebarStudent";
+import RosterSidebar from "./components/RosterSideBar";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,6 +50,9 @@ function App() {
           <div className="message-list-container">
             <MessageList />
             <MessageForm />
+          </div>
+          <div className="sidebar-container"> 
+            <RosterSidebar />
           </div>
         </div>
       ) : (
