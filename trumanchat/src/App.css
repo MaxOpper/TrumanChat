@@ -94,3 +94,13 @@ html, body, #root {
 }
 
 
+.user-button {
+  margin: 10px;
+  align-self: flex-end;
+  padding: 5px 10px;
+  background-color: #87714d;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
