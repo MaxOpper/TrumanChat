@@ -11,6 +11,10 @@ function App() {
   const [user, setUser] = useState(null);
   const [isProfessor, setIsProfessor] = useState(false);
   const auth = getAuth();
+  const openPDF = () => {
+    window.open("https://docs.google.com/document/d/1OVPZVLp9rgC6Zdgi4uS8JUqQqFeLFegWKy8lEDiD3vM/edit?usp=sharing");
+
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -54,8 +58,11 @@ function App() {
       ) : (
         <div className="login-message">
           Please log in to see messages and post new messages.
+          
         </div>
+        
       )}
+      <button className="user-button" onClick={openPDF}> User Manual </button>
     </div>
   );
 }
