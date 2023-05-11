@@ -50,6 +50,7 @@ const SidebarStudent = ({ user }) => {
     const newEnrollment = {
       classId: snapshot.docs[0].id,
       student: user.email,
+      studentName: user.name,
     };
     try {
       await addDoc(enrolledRef, newEnrollment);

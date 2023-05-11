@@ -15,11 +15,15 @@ const RosterSidebar = () => {
     const enrolledRef = collection(firestore, "enrolled");
     const enrolledQuery = query(enrolledRef, where("classId", "==", classId));
     const unsubscribe = onSnapshot(enrolledQuery, (enrolledSnapshot) => {
+      console.log("Snapshot received:", enrolledSnapshot.docs);  // New line for logging snapshot
       const studentList = enrolledSnapshot.docs.map((enrollmentDoc) => {
-        return enrollmentDoc.data().studentName;
+        
+        return enrollmentDoc.data().student;
       });
       setStudents(studentList);
+      console.log(students);  // New line for logging document data
     });
+    
 
     return unsubscribe;
   };
@@ -52,14 +56,19 @@ const RosterSidebar = () => {
       <div className="student-list">
         <h2>Class Roster</h2>
         <ul>
-          {students.map((student, index) => (
-            <li key={index}>
-              <p>
-                <strong>{student}</strong>
-              </p>
-            </li>
-          ))}
-        </ul>
+  {students.length > 0 ? (
+    students.map((student, index) => (
+      <li key={index}>
+        <p>
+          <strong>{student}</strong>
+        </p>
+      </li>
+    ))
+  ) : (
+    <li>No students enrolled</li>
+  )}
+</ul>
+
       </div>
     </div>
   );
